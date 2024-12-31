@@ -24,7 +24,7 @@
 			Winter
 		}
 
-		[Flags]
+		[Flags] // This attribute allows an enum to be treated as a bit field or a stream of bits  
 		enum Permission
 		{
 			None = 0, Read = 1, Write = 2, Delete = 4, Execute = 8
@@ -48,6 +48,43 @@
 				X = x;
 				Y = y;
 			}
+
+			public double Distance (Point p)
+			{
+				return Math.Sqrt(Math.Pow(X - p.X, 2) + Math.Pow(Y - p.Y, 2));
+			}
+			public static double CalculateDistance(Point p1, Point p2)
+			{
+				double dx = p2.X - p1.X; double dy = p2.Y - p1.Y; return Math.Sqrt(dx * dx + dy * dy);
+			}
+
+			public static double GetValidDouble(string prompt)
+			{
+				double value;
+				bool success;
+
+				do
+				{
+					Console.WriteLine(prompt);
+					string input = Console.ReadLine();
+					success = double.TryParse(input, out value);
+
+					if (!success)
+					{
+						Console.WriteLine("Invalid input. Please enter a valid number.");
+					}
+
+				} while (!success);
+
+				return value;
+			}
+		}
+
+
+		struct Person
+		{
+			public string Name;
+			public int Age;
 		}
 
 
@@ -95,6 +132,47 @@
 					Console.WriteLine("Invalid season name");
 					break;
 			}*/
+
+
+			// Array of objects
+			// Person[] people = new Person[3]; creates an array of objects. Specifically, it creates an array that can hold three references to Person objects
+			/*Person[] people = new Person[3];
+			people[0] = new Person { Name = "Ahmed", Age = 25 };
+			people[1] = new Person { Name = "Ali", Age = 30 };
+			people[2] = new Person { Name = "Sara", Age = 20 };
+
+			foreach (Person person in people)
+			{
+				Console.WriteLine($"Name: {person.Name}, Age: {person.Age}");
+			}*/
+
+			// Other solution
+
+			/*Console.WriteLine("Enter a season:");
+			string input = Console.ReadLine();
+			Season season;
+
+			if(Enum.TryParse(input, true, out season))
+			{
+				switch (season)
+				{
+					case Season.Spring:
+						Console.WriteLine("March to May");
+						break;
+					case Season.Summer:
+						Console.WriteLine("June to August");
+						break;
+					case Season.Autumn:
+						Console.WriteLine("September to November");
+						break;
+					case Season.Winter:
+						Console.WriteLine("December to February");
+						break;
+					default:
+						Console.WriteLine("Invalid season name");
+						break;
+				}
+			}*/
 			#endregion
 
 			#region Q3
@@ -127,6 +205,16 @@
 			Console.WriteLine($"Delete permission: {hasDelete}");
 			Console.WriteLine($"Execute permission: {hasExecute}");*/
 
+			/*Permission permissions = Permission.Read;
+			permissions ^= Permission.Write;
+			permissions ^= Permission.Write;
+			permissions |= Permission.Delete;
+			if ((Permission.Read & permissions) == Permission.Read)
+			{
+				Console.WriteLine();
+			}
+			Console.WriteLine(permissions);*/
+
 			#endregion
 
 			#region Q4
@@ -152,25 +240,27 @@
 			#region Q5
 			// Create a struct called "Point" to represent a 2D point with properties "X" and "Y". Write a C# program that takes two points as input from the user and calculates the distance between them
 			// Input for the first point
-			double x1 = GetValidDouble("Enter the X coordinate for the first point:");
-			double y1 = GetValidDouble("Enter the Y coordinate for the first point:");
+			/*double x1 = Point.GetValidDouble("Enter the X coordinate for the first point:");
+			double y1 = Point.GetValidDouble("Enter the Y coordinate for the first point:");
 
-			// Create the first point
 			Point point1 = new Point(x1, y1);
 
-			// Input for the second point
-			double x2 = GetValidDouble("Enter the X coordinate for the second point:");
-			double y2 = GetValidDouble("Enter the Y coordinate for the second point:");
+			double x2 = Point.GetValidDouble("Enter the X coordinate for the second point:");
+			double y2 = Point.GetValidDouble("Enter the Y coordinate for the second point:");
 
-			// Create the second point
 			Point point2 = new Point(x2, y2);
 
-			// Calculate the distance
-			double distance = CalculateDistance(point1, point2);
+			double distance = Point.CalculateDistance(point1, point2);
 
-			// Output the result
-			Console.WriteLine($"The distance between the two points is: {distance}");
+			Console.WriteLine($"The distance between the two points is: {distance}");*/
 
+
+			// Other solution
+			Console.WriteLine("Enter coordinates for point 1");
+			var p1 = new Point(double.Parse(Console.ReadLine()), double.Parse(Console.ReadLine()));
+			Console.WriteLine("Enter coordintaes for point 2 ");
+			var p2 = new Point(double.Parse(Console.ReadLine()), double.Parse(Console.ReadLine()));
+			Console.WriteLine($"The distance between the two pont is {p1.Distance(p2)}");
 
 
 
@@ -286,31 +376,7 @@
 			#endregion
 			#endregion
 		}
-		static double CalculateDistance(Point p1, Point p2)
-		{
-			double dx = p2.X - p1.X; double dy = p2.Y - p1.Y; return Math.Sqrt(dx * dx + dy * dy);
-		}
-
-		static double GetValidDouble(string prompt)
-		{
-			double value;
-			bool success;
-
-			do
-			{
-				Console.WriteLine(prompt);
-				string input = Console.ReadLine();
-				success = double.TryParse(input, out value);
-
-				if (!success)
-				{
-					Console.WriteLine("Invalid input. Please enter a valid number.");
-				}
-
-			} while (!success);
-
-			return value;
-		}
+		
 
 	}
 }
